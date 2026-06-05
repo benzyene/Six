@@ -370,6 +370,38 @@ document.addEventListener('click', tryStartMusic, {once:true});
 document.addEventListener('touchstart', tryStartMusic, {once:true});
 </script>
 
+<script>
+let musicStarted = false;
+function tryStartMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+
+  // Play your uploaded MP3
+  const audio = document.getElementById('bg_music');
+  if (audio) {
+    audio.play().catch(err => {
+      console.log("Audio play failed:", err);
+    });
+  }
+
+  // Kick off your game logic
+  const intro = document.getElementById('intro-screen');
+  if (intro) {
+    intro.style.display = 'none'; // hide intro screen
+  }
+
+  // If you have a startGame() function, call it here
+  if (typeof startGame === "function") {
+    startGame();
+  }
+}
+
+// Trigger playback + game start on first click/touch
+document.addEventListener('click', tryStartMusic, {once:true});
+document.addEventListener('touchstart', tryStartMusic, {once:true});
+</script>
+
+
 // ════════════════════════════════════════════════════
 // ORB CANVAS (intro background)
 // ════════════════════════════════════════════════════
