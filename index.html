@@ -339,6 +339,36 @@ html,body{width:100%;height:100%;overflow:hidden;touch-action:manipulation;backg
 // Hotel California — best we can do without a license is enable audio on first interaction
 // We'll use a YouTube embed trick via iframe audio context workaround
 // Actually just start the background audio element on first user gesture
+<script>
+let musicStarted = false;
+function tryStartMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+
+  // Play your uploaded MP3
+  const audio = document.getElementById('bg_music');
+  if (audio) {
+    audio.play().catch(err => {
+      console.log("Audio play failed:", err);
+    });
+  }
+
+  // ✅ Kick off your game start logic here
+  // For example, hide intro screen and show main game
+  const intro = document.getElementById('intro-screen');
+  if (intro) {
+    intro.style.display = 'none';
+  }
+  // If you have a function like startGame(), call it here
+  if (typeof startGame === "function") {
+    startGame();
+  }
+}
+
+// Trigger playback + game start on first click/touch
+document.addEventListener('click', tryStartMusic, {once:true});
+document.addEventListener('touchstart', tryStartMusic, {once:true});
+</script>
 
 // ════════════════════════════════════════════════════
 // ORB CANVAS (intro background)
