@@ -238,7 +238,7 @@ html,body{width:100%;height:100%;overflow:hidden;touch-action:manipulation;backg
 
 <!-- ══ AUDIO — Hotel California ══ -->
 <audio id="bg-music" loop autoplay>
-  <source src="song" type="audio/mpeg">
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ══════════ INTRO SCREEN ══════════ -->
@@ -339,50 +339,6 @@ html,body{width:100%;height:100%;overflow:hidden;touch-action:manipulation;backg
 // Hotel California — best we can do without a license is enable audio on first interaction
 // We'll use a YouTube embed trick via iframe audio context workaround
 // Actually just start the background audio element on first user gesture
-let musicStarted = false;
-function tryStartMusic(){
-  if(musicStarted) return;
-  musicStarted = true;
-  // Since actual Hotel California can't be embedded from external CDN,
-  // we create a soothing ambient audio simulation with Web Audio API
-  try{
-    const actx = new (window.AudioContext||window.webkitAudioContext)();
-    function makeNote(freq, start, dur, vol=0.05){
-      const osc = actx.createOscillator();
-      const gain = actx.createGain();
-      const filt = actx.createBiquadFilter();
-      filt.type = 'lowpass'; filt.frequency.value = 800;
-      osc.connect(filt); filt.connect(gain); gain.connect(actx.destination);
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0, actx.currentTime + start);
-      gain.gain.linearRampToValueAtTime(vol, actx.currentTime + start + 0.1);
-      gain.gain.linearRampToValueAtTime(0, actx.currentTime + start + dur);
-      osc.start(actx.currentTime + start);
-      osc.stop(actx.currentTime + start + dur + 0.1);
-    }
-    // Hotel California-ish arpeggio loop (Am - E - G - D - F - C - Dm - E)
-    const chords = [
-      [220,261.63,329.63],[164.81,246.94,329.63],[196,246.94,293.66],
-      [146.83,220,293.66],[174.61,220,261.63],[130.81,196,261.63],
-      [146.83,174.61,220],[164.81,246.94,329.63]
-    ];
-    let t=0;
-    function playLoop(){
-      chords.forEach((chord,ci)=>{
-        chord.forEach((freq,fi)=>{
-          makeNote(freq, t + ci*1.5 + fi*0.08, 1.4, 0.04);
-          makeNote(freq*2, t + ci*1.5 + fi*0.08, 0.7, 0.02);
-        });
-      });
-      t += chords.length * 1.5;
-      if(t < 9999) setTimeout(playLoop, chords.length * 1500 - 200);
-    }
-    playLoop();
-  } catch(e){}
-}
-document.addEventListener('click', tryStartMusic, {once:true});
-document.addEventListener('touchstart', tryStartMusic, {once:true});
 
 // ════════════════════════════════════════════════════
 // ORB CANVAS (intro background)
