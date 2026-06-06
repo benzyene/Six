@@ -367,7 +367,7 @@ setTimeout(() => {
 const orbC = document.getElementById('orb-canvas');
 const orbX = orbC.getContext('2d');
 let OW, OH;
-function resizeOrb() { OW = orbC.width = orbC.offsetWidth; OH = orbC.height = orbC.offsetHeight; }
+function resizeOrb() { OW = orbC.width = window.innerWidth; OH = orbC.height = window.innerHeight; }
 resizeOrb();
 const PAL = [{h:320,s:90,l:80},{h:280,s:80,l:85},{h:45,s:100,l:78},{h:340,s:85,l:88},{h:200,s:70,l:88},{h:60,s:80,l:85}];
 const orbs = [];
@@ -439,7 +439,7 @@ setTimeout(showIntroStage, 2000);
 const spkI = document.getElementById('spark-intro');
 const spkIX = spkI.getContext('2d');
 let SI_W, SI_H, introSparks = [];
-function resizeSpkI() { SI_W = spkI.width = spkI.offsetWidth; SI_H = spkI.height = spkI.offsetHeight; }
+function resizeSpkI() { SI_W = spkI.width = window.innerWidth; SI_H = spkI.height = window.innerHeight; }
 resizeSpkI();
 function spkITick() {
   spkIX.clearRect(0,0,SI_W,SI_H);
@@ -1365,7 +1365,7 @@ function startFinale(){
 // ═══════════════════════════════════════
 window.addEventListener('resize',()=>{
   resizeOrb(); resizeSpkI();
-  if(spkC2){ spkW2=spkC2.width=spkC2.offsetWidth; spkH2=spkC2.height=spkC2.offsetHeight; }
+  if(spkC2){ spkW2=spkC2.width=window.innerWidth; spkH2=spkC2.height=window.innerHeight; }
 });
 </script>
 </body>
